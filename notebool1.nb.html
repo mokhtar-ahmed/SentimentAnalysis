@@ -177,15 +177,21 @@ $(document).ready(function () {
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShkcGx5cilcbmxpYnJhcnkoeGxzeClcbmxpYnJhcnkodG0pXG5saWJyYXJ5KE5MUClcbmxpYnJhcnkoY2FyZXQpXG5zb3VyY2UoXCJ1dGlscy5SXCIsbG9jYWwgPSBUUlVFKVxuU3lzLnNldGxvY2FsZShcIkxDX0FMTFwiLCBcIkFyYWJpY1wiKVxuc2V0LnNlZWQoMzIzMjMpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShkcGx5cilcbmxpYnJhcnkoeGxzeClcbmxpYnJhcnkodG0pXG5saWJyYXJ5KE5MUClcbmxpYnJhcnkoY2FyZXQpXG5zb3VyY2UoXCJ1dGlscy5SXCIsbG9jYWwgPSBUUlVFKVxuc291cmNlKFwiUkFyYWJpY1N0ZW1tZXIuUlwiKVxuU3lzLnNldGxvY2FsZShcIkxDX0FMTFwiLCBcIkFyYWJpY1wiKVxuYGBgIn0= -->
 <pre class="r"><code>library(dplyr)
 library(xlsx)
 library(tm)
 library(NLP)
 library(caret)
 source(&quot;utils.R&quot;,local = TRUE)
-Sys.setlocale(&quot;LC_ALL&quot;, &quot;Arabic&quot;)
-set.seed(32323)</code></pre>
+source(&quot;RArabicStemmer.R&quot;)
+Sys.setlocale(&quot;LC_ALL&quot;, &quot;Arabic&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiTENfQ09MTEFURT1BcmFiaWNfU2F1ZGkgQXJhYmlhLjEyNTY7TENfQ1RZUEU9QXJhYmljX1NhdWRpIEFyYWJpYS4xMjU2O0xDX01PTkVUQVJZPUFyYWJpY19TYXVkaSBBcmFiaWEuMTI1NjtMQ19OVU1FUklDPUM7TENfVElNRT1BcmFiaWNfU2F1ZGkgQXJhYmlhLjEyNTZcIlxuIn0= -->
+<pre><code>[1] &quot;LC_COLLATE=Arabic_Saudi Arabia.1256;LC_CTYPE=Arabic_Saudi Arabia.1256;LC_MONETARY=Arabic_Saudi Arabia.1256;LC_NUMERIC=C;LC_TIME=Arabic_Saudi Arabia.1256&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2V0LnNlZWQoMzIzMjMpXG5gYGAifQ== -->
+<pre class="r"><code>set.seed(32323)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -225,7 +231,7 @@ table(unclean.corpus$class)</code></pre>
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudHdpdHRlci5jb3JwdXMgPC0gQ29ycHVzKFZlY3RvclNvdXJjZSh1bmNsZWFuLmNvcnB1cyR0d2VldCkpXG50d2l0dGVyLmNvcnB1cy5jbGVhbiA8LSB0bV9tYXAodHdpdHRlci5jb3JwdXMsIHRvbG93ZXIpXG50d2l0dGVyLmNvcnB1cy5jbGVhbiA8LSB0bV9tYXAodHdpdHRlci5jb3JwdXMuY2xlYW4sIHJlbW92ZU51bWJlcnMpXG50d2l0dGVyLmNvcnB1cy5jbGVhbiA8LSB0bV9tYXAodHdpdHRlci5jb3JwdXMuY2xlYW4sIHJlbW92ZVdvcmRzLGFyYWJpYy5zdG9wd29yZClcbnR3aXR0ZXIuY29ycHVzLmNsZWFuIDwtIHRtX21hcCh0d2l0dGVyLmNvcnB1cy5jbGVhbiwgcmVtb3ZlUHVuY3R1YXRpb24pXG50d2l0dGVyLmNvcnB1cy5jbGVhbiA8LSB0bV9tYXAodHdpdHRlci5jb3JwdXMuY2xlYW4sIHJlbW92ZUVuZ2xpc2hXb3JkcylcbnR3aXR0ZXIuY29ycHVzLmNsZWFuIDwtIHRtX21hcCh0d2l0dGVyLmNvcnB1cy5jbGVhbiwgc3RyaXBXaGl0ZXNwYWNlKVxudHdpdHRlci5jb3JwdXMuY2xlYW4gPC0gdG1fbWFwKHR3aXR0ZXIuY29ycHVzLmNsZWFuLCByZW9tdmVFbG9uZ2F0aW9uKVxudHdpdHRlci5jb3JwdXMuY2xlYW4gPC0gdG1fbWFwKHR3aXR0ZXIuY29ycHVzLmNsZWFuLCByZW9tdmVTaW5nbGVMZXR0ZXJzKVxudHdpdHRlci5jb3JwdXMuY2xlYW4gPC0gdG1fbWFwKHR3aXR0ZXIuY29ycHVzLmNsZWFuLCBub3JtYWxpemVBcmFiaWMpXG5pbnNwZWN0KHR3aXR0ZXIuY29ycHVzLmNsZWFuWzE6MTBdKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudHdpdHRlci5jb3JwdXMgPC0gQ29ycHVzKFZlY3RvclNvdXJjZSh1bmNsZWFuLmNvcnB1cyR0d2VldCkpXG50d2l0dGVyLmNvcnB1cy5jbGVhbiA8LSB0bV9tYXAodHdpdHRlci5jb3JwdXMsIHRvbG93ZXIpXG50d2l0dGVyLmNvcnB1cy5jbGVhbiA8LSB0bV9tYXAodHdpdHRlci5jb3JwdXMuY2xlYW4sIHJlbW92ZU51bWJlcnMpXG50d2l0dGVyLmNvcnB1cy5jbGVhbiA8LSB0bV9tYXAodHdpdHRlci5jb3JwdXMuY2xlYW4sIHJlbW92ZVdvcmRzLGFyYWJpYy5zdG9wd29yZClcbnR3aXR0ZXIuY29ycHVzLmNsZWFuIDwtIHRtX21hcCh0d2l0dGVyLmNvcnB1cy5jbGVhbiwgcmVtb3ZlUHVuY3R1YXRpb24pXG50d2l0dGVyLmNvcnB1cy5jbGVhbiA8LSB0bV9tYXAodHdpdHRlci5jb3JwdXMuY2xlYW4sIHJlbW92ZUVuZ2xpc2hXb3JkcylcbnR3aXR0ZXIuY29ycHVzLmNsZWFuIDwtIHRtX21hcCh0d2l0dGVyLmNvcnB1cy5jbGVhbiwgc3RyaXBXaGl0ZXNwYWNlKVxudHdpdHRlci5jb3JwdXMuY2xlYW4gPC0gdG1fbWFwKHR3aXR0ZXIuY29ycHVzLmNsZWFuLCByZW9tdmVFbG9uZ2F0aW9uKVxudHdpdHRlci5jb3JwdXMuY2xlYW4gPC0gdG1fbWFwKHR3aXR0ZXIuY29ycHVzLmNsZWFuLCByZW9tdmVTaW5nbGVMZXR0ZXJzKVxuZGF0YWZyYW1lIDwtIGRhdGEuZnJhbWUodGV4dD1zYXBwbHkodHdpdHRlci5jb3JwdXMuY2xlYW4sYXMuY2hhcmFjdGVyKSxzdHJpbmdzQXNGYWN0b3JzPUYpXG53cml0ZS50YWJsZShkYXRhZnJhbWUkdGV4dCwgc2VwPVwiXFxuXCIsIGZpbGUgPSBcImluLnR4dFwiLCBmaWxlRW5jb2RpbmcgPSBcIlVURi04XCIsIGNvbC5uYW1lcyA9IEYgLCByb3cubmFtZXMgPSBGKVxuc3RlbUZpbGUoXCJpbi50eHRcIiwgXCJvdXQudHh0XCIpXG5gYGAifQ== -->
 <pre class="r"><code>twitter.corpus &lt;- Corpus(VectorSource(unclean.corpus$tweet))
 twitter.corpus.clean &lt;- tm_map(twitter.corpus, tolower)
 twitter.corpus.clean &lt;- tm_map(twitter.corpus.clean, removeNumbers)
@@ -235,25 +241,10 @@ twitter.corpus.clean &lt;- tm_map(twitter.corpus.clean, removeEnglishWords)
 twitter.corpus.clean &lt;- tm_map(twitter.corpus.clean, stripWhitespace)
 twitter.corpus.clean &lt;- tm_map(twitter.corpus.clean, reomveElongation)
 twitter.corpus.clean &lt;- tm_map(twitter.corpus.clean, reomveSingleLetters)
-twitter.corpus.clean &lt;- tm_map(twitter.corpus.clean, normalizeArabic)
-inspect(twitter.corpus.clean[1:10])</code></pre>
+dataframe &lt;- data.frame(text=sapply(twitter.corpus.clean,as.character),stringsAsFactors=F)
+write.table(dataframe$text, sep=&quot;\n&quot;, file = &quot;in.txt&quot;, fileEncoding = &quot;UTF-8&quot;, col.names = F , row.names = F)
+stemFile(&quot;in.txt&quot;, &quot;out.txt&quot;)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiPDxTaW1wbGVDb3JwdXM+PlxuTWV0YWRhdGE6ICBjb3JwdXMgc3BlY2lmaWM6IDEsIGRvY3VtZW50IGxldmVsIChpbmRleGVkKTogMFxuQ29udGVudDogIGRvY3VtZW50czogMTBcblxuIFsxXSDZgdmK2YbZiCDYp9mH2KjZhCDYp9mH2KjZhCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuIFsyXSDYudmE2LjZuSDZhdi12LHZitmGINmI2KzZhdin2YQg2LHYqNmG2Kcg2YrYrdmF2YogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiBbM10g2K/ZiNmEINmD2KrZitixINin2YjYuNm5INmI2K/ZhSDYrtmB2YrZgSDYudmF2KfYsdipINmB2YrZh9inINmD2YTZh9inINiz2YjYsdmK2YYg2LfCp9i32YHYp9mEINi52LPZhCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiBbNF0g2YPYryDYrtmE2LjZuSDZhNi42bkg2YrZiNi52YbYuNm5INio2K3Yp9isINmH2YXYtti42bkg2LnZhNi42bkg2YjYtdmEINin2YXYp9mGINi52YTYtNin2YYg2KfYttmF2YYg2KfZhtmIINmK2K7ZiNmGICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiBbNV0g2YfZhtiq2K3YsSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuIFs2XSDYrdmB2Lgg2YrYpyDYsdmK2LMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gWzddINmK2Kcg2LnYt9i02KfZhiDYudi32LTYp9mG2Kkg2LPZh9ixINmK2Kcg2YLZhNmI2Kgg2KrYudio2KfZhtipINiq2LnYqNin2YbYqSDYs9mB2LEg2YPYqtix2YjYpyDYrdioINiq2YTYp9mC2YjYpyDYqtmE2KfZgtmI2Kcg2LbZhNmF2Kkg2LfCp9mE2YEg2YLZhdixICAgICAgICAgIFxuIFs4XSDYstmH2YLZhtin2YXZhiDYp9iz2KfZhdmKINin2YPZiNmG2KrYp9iqINio2YbYp9iqINi52YTYuNm5INmF2YjYp9mC2Lkg2KrZiNin2LXZhCDYp9is2KrZhdin2LnZiiDYstmKINmF2KvZhNinINi02LHZiNmCINi02YXYsyDYsNmH2Kgg2LfCp9iy2LHZgiDYt8Kn2Yog2KjYt9mK2K4g2LPZhNin2YVcbiBbOV0g2K3ZhdivINiz2YTYp9mF2KkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzEwXSDYt8Kn2K3YpyDZhdmK2YYgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiJ9 -->
-<pre><code>&lt;&lt;SimpleCorpus&gt;&gt;
-Metadata:  corpus specific: 1, document level (indexed): 0
-Content:  documents: 10
-
- [1] فينو اهبل اهبل                                                                              
- [2] علظٹ مصرين وجمال ربنا يحمي                                                                  
- [3] دول كتير اوظٹ ودم خفيف عمارة فيها كلها سورين ط§طفال عسل                                     
- [4] كد خلظٹ لظٹ يوعنظٹ بحاج همضظٹ علظٹ وصل امان علشان اضمن انو يخون                             
- [5] هنتحر                                                                                       
- [6] حفظ يا ريس                                                                                  
- [7] يا عطشان عطشانة سهر يا قلوب تعبانة تعبانة سفر كتروا حب تلاقوا تلاقوا ضلمة ط§لف قمر          
- [8] زهقنامن اسامي اكونتات بنات علظٹ مواقع تواصل اجتماعي زي مثلا شروق شمس ذهب ط§زرق ط§ي بطيخ سلام
- [9] حمد سلامة                                                                                   
-[10] ط§حا مين                                                                                    </code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <ol start="4" style="list-style-type: decimal">
@@ -261,31 +252,31 @@ Content:  documents: 10
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0YWZyYW1lIDwtIGRhdGEuZnJhbWUodGV4dD1zYXBwbHkodHdpdHRlci5jb3JwdXMuY2xlYW4sYXMuY2hhcmFjdGVyKSxzdHJpbmdzQXNGYWN0b3JzPUYpXG4jd3JpdGUueGxzeChkYXRhZnJhbWUsIFwiY2xlYW4vdHdpdHRlcl9jbGVhbl93aXRoX25vcm1hbGl6ZS54bHN4XCIsc2hlZXROYW1lID0gXCJzaGVldFwiKVxudHdpdHRlci5kdG0gPC0gRG9jdW1lbnRUZXJtTWF0cml4KENvcnB1cyhEYXRhZnJhbWVTb3VyY2UoZGF0YWZyYW1lKSkpXG5pbnNwZWN0KHR3aXR0ZXIuZHRtKVxuYGBgIn0= -->
-<pre class="r"><code>dataframe &lt;- data.frame(text=sapply(twitter.corpus.clean,as.character),stringsAsFactors=F)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0YWZyYW1lIDwtIHJlYWQudGFibGUoXCJvdXQudHh0XCIsIHNlcD1cIlxcblwiLCBmaWxlRW5jb2RpbmcgPSBcIlVURi04XCIpXG4jd3JpdGUueGxzeChkYXRhZnJhbWUsIFwiY2xlYW4vdHdpdHRlcl9jbGVhbl93aXRoX25vcm1hbGl6ZS54bHN4XCIsc2hlZXROYW1lID0gXCJzaGVldFwiKVxudHdpdHRlci5kdG0gPC0gRG9jdW1lbnRUZXJtTWF0cml4KENvcnB1cyhEYXRhZnJhbWVTb3VyY2UoZGF0YWZyYW1lKSkpXG5pbnNwZWN0KHR3aXR0ZXIuZHRtKVxuYGBgIn0= -->
+<pre class="r"><code>dataframe &lt;- read.table(&quot;out.txt&quot;, sep=&quot;\n&quot;, fileEncoding = &quot;UTF-8&quot;)
 #write.xlsx(dataframe, &quot;clean/twitter_clean_with_normalize.xlsx&quot;,sheetName = &quot;sheet&quot;)
 twitter.dtm &lt;- DocumentTermMatrix(Corpus(DataframeSource(dataframe)))
 inspect(twitter.dtm)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiPDxEb2N1bWVudFRlcm1NYXRyaXggKGRvY3VtZW50czogMTQyMCwgdGVybXM6IDEwNjI1KT4+XG5Ob24tL3NwYXJzZSBlbnRyaWVzOiAxOTU4Mi8xNTA2NzkxOFxuU3BhcnNpdHkgICAgICAgICAgIDogMTAwJVxuTWF4aW1hbCB0ZXJtIGxlbmd0aDogNzlcbldlaWdodGluZyAgICAgICAgICA6IHRlcm0gZnJlcXVlbmN5ICh0ZilcblNhbXBsZSAgICAgICAgICAgICA6XG4gICAgICBUZXJtc1xuRG9jcyAgINix2KjZhtinINi3wqfZhiDYudi02KfZhiDYudmE2LjZuSDZgdi42bkg2YTYuNm5INmF2LXYsSDZhtin2LMg2YjZhNinINmK2KfYsdioXG4gIDEwMDQgICAgMCAgIDIgICAgMCAgICAwICAgNCAgIDEgICAwICAgMSAgIDIgICAgMVxuICAxMTIwICAgIDMgICAxICAgIDUgICAgMiAgIDQgICAxICAgMSAgIDQgICA0ICAgIDBcbiAgMTE0MyAgICAxICAgMSAgICAyICAgIDIgICAyICAgMCAgIDIgICAwICAgMiAgICAwXG4gIDEzNDcgICAgMiAgIDMgICAgMSAgICAwICAgMiAgIDMgICAwICAgMyAgIDIgICAgMFxuICAyMzEgICAgIDEgICAwICAgIDAgICAgNiAgIDEgICAxICAgMCAgIDAgICAyICAgIDBcbiAgMjM2ICAgICAwICAgMiAgICAwICAgIDIgICAyICAgMSAgIDAgICAyICAgMCAgICAwXG4gIDcyMyAgICAgMSAgIDAgICAgMCAgICAwICAgMCAgIDEgICAxICAgMyAgIDAgICAgMlxuICA3MzggICAgIDAgICAwICAgIDMgICAgMiAgIDMgICAxICAgMCAgIDEgICAxICAgIDFcbiAgODcxICAgICAwICAgMCAgICAwICAgIDMgICAxICAgMCAgIDAgICAwICAgMCAgICAxXG4gIDg4MiAgICAgMSAgIDEgICAgMCAgICAwICAgMyAgIDAgICAxICAgMSAgIDUgICAgMVxuIn0= -->
-<pre><code>&lt;&lt;DocumentTermMatrix (documents: 1420, terms: 10625)&gt;&gt;
-Non-/sparse entries: 19582/15067918
+<!-- rnb-output-begin eyJkYXRhIjoiPDxEb2N1bWVudFRlcm1NYXRyaXggKGRvY3VtZW50czogMTA0MSwgdGVybXM6IDYwMzYpPj5cbk5vbi0vc3BhcnNlIGVudHJpZXM6IDEyNDE0LzYyNzEwNjJcblNwYXJzaXR5ICAgICAgICAgICA6IDEwMCVcbk1heGltYWwgdGVybSBsZW5ndGg6IDc4XG5XZWlnaHRpbmcgICAgICAgICAgOiB0ZXJtIGZyZXF1ZW5jeSAodGYpXG5TYW1wbGUgICAgICAgICAgICAgOlxuICAgICAgVGVybXNcbkRvY3MgICAyNjY1IGZlZmIg2KfZhNmEINin2YbYqiDYrdin2Kwg2LnZhNmJINmF2LXYsSDZhtin2LMg2YbZgdizINmK2KfYsdioXG4gIDEwMDMgICAgMCAgICAzICAgMyAgIDAgICAwICAgMCAgIDEgICAxICAgMiAgICAxXG4gIDEwMzAgICAgMCAgICAxICAgMyAgIDMgICAxICAgMCAgIDAgICAyICAgMCAgICAwXG4gIDIzMCAgICAgMCAgICAwICAgMSAgIDAgICAzICAgNiAgIDAgICAwICAgMiAgICAwXG4gIDIzNSAgICAgMCAgICAyICAgMSAgIDAgICAxICAgMiAgIDAgICAyICAgMSAgICAwXG4gIDI4OSAgICAgMCAgICAwICAgNSAgIDMgICAwICAgNCAgIDEgICAwICAgMCAgICAwXG4gIDcyMiAgICAgMSAgICAxICAgMiAgIDIgICAxICAgMSAgIDEgICAzICAgMSAgICA0XG4gIDczNyAgICAgMCAgICAyICAgMSAgIDAgICAyICAgMiAgIDAgICAxICAgMCAgICAxXG4gIDgxNyAgICAgMCAgICAwICAgMyAgIDAgICAxICAgMiAgIDAgICAyICAgMCAgICAwXG4gIDg3MCAgICAgMCAgICAwICAgMSAgIDIgICAyICAgMyAgIDAgICAwICAgMCAgICAxXG4gIDg4MSAgICAgMiAgICAwICAgMiAgIDEgICAwICAgMCAgIDEgICAxICAgMSAgICAxXG4ifQ== -->
+<pre><code>&lt;&lt;DocumentTermMatrix (documents: 1041, terms: 6036)&gt;&gt;
+Non-/sparse entries: 12414/6271062
 Sparsity           : 100%
-Maximal term length: 79
+Maximal term length: 78
 Weighting          : term frequency (tf)
 Sample             :
       Terms
-Docs   ربنا ط§ن عشان علظٹ فظٹ لظٹ مصر ناس ولا يارب
-  1004    0   2    0    0   4   1   0   1   2    1
-  1120    3   1    5    2   4   1   1   4   4    0
-  1143    1   1    2    2   2   0   2   0   2    0
-  1347    2   3    1    0   2   3   0   3   2    0
-  231     1   0    0    6   1   1   0   0   2    0
-  236     0   2    0    2   2   1   0   2   0    0
-  723     1   0    0    0   0   1   1   3   0    2
-  738     0   0    3    2   3   1   0   1   1    1
-  871     0   0    0    3   1   0   0   0   0    1
-  882     1   1    0    0   3   0   1   1   5    1</code></pre>
+Docs   2665 fefb الل انت حاج على مصر ناس نفس يارب
+  1003    0    3   3   0   0   0   1   1   2    1
+  1030    0    1   3   3   1   0   0   2   0    0
+  230     0    0   1   0   3   6   0   0   2    0
+  235     0    2   1   0   1   2   0   2   1    0
+  289     0    0   5   3   0   4   1   0   0    0
+  722     1    1   2   2   1   1   1   3   1    4
+  737     0    2   1   0   2   2   0   1   0    1
+  817     0    0   3   0   1   2   0   2   0    0
+  870     0    0   1   2   2   3   0   0   0    1
+  881     2    0   2   1   0   0   1   1   1    1</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -301,50 +292,36 @@ twitter.df &lt;- DocumentTermMatrix(Corpus(DataframeSource(dataframe)),
                                 list(dictionary = twitter.dict))
 inspect(twitter.df)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiPDxEb2N1bWVudFRlcm1NYXRyaXggKGRvY3VtZW50czogMTQyMCwgdGVybXM6IDY1NCk+PlxuTm9uLS9zcGFyc2UgZW50cmllczogNjk1OC85MjE3MjJcblNwYXJzaXR5ICAgICAgICAgICA6IDk5JVxuTWF4aW1hbCB0ZXJtIGxlbmd0aDogMTlcbldlaWdodGluZyAgICAgICAgICA6IHRlcm0gZnJlcXVlbmN5ICh0ZilcblNhbXBsZSAgICAgICAgICAgICA6XG4gICAgICBUZXJtc1xuRG9jcyAgINix2KjZhtinINi3wqfZhiDYudi02KfZhiDYudmE2LjZuSDZgdi42bkg2YTYuNm5INmF2LXYsSDZhtin2LMg2YjZhNinINmK2KfYsdioXG4gIDEwMDQgICAgMCAgIDEgICAgMCAgICAwICAgMSAgIDEgICAwICAgMSAgIDEgICAgMVxuICAxMTIwICAgIDEgICAxICAgIDEgICAgMSAgIDEgICAxICAgMSAgIDEgICAxICAgIDBcbiAgMTE0MyAgICAxICAgMSAgICAxICAgIDEgICAxICAgMCAgIDEgICAwICAgMSAgICAwXG4gIDEzNDcgICAgMSAgIDEgICAgMSAgICAwICAgMSAgIDEgICAwICAgMSAgIDEgICAgMFxuICAyMzEgICAgIDEgICAwICAgIDAgICAgMSAgIDEgICAxICAgMCAgIDAgICAxICAgIDBcbiAgMjM2ICAgICAwICAgMSAgICAwICAgIDEgICAxICAgMSAgIDAgICAxICAgMCAgICAwXG4gIDI5MCAgICAgMCAgIDAgICAgMSAgICAxICAgMSAgIDEgICAxICAgMCAgIDEgICAgMFxuICA3MjMgICAgIDEgICAwICAgIDAgICAgMCAgIDAgICAxICAgMSAgIDEgICAwICAgIDFcbiAgODcxICAgICAwICAgMCAgICAwICAgIDEgICAxICAgMCAgIDAgICAwICAgMCAgICAxXG4gIDg4MiAgICAgMSAgIDEgICAgMCAgICAwICAgMSAgIDAgICAxICAgMSAgIDEgICAgMVxuIn0= -->
-<pre><code>&lt;&lt;DocumentTermMatrix (documents: 1420, terms: 654)&gt;&gt;
-Non-/sparse entries: 6958/921722
+<!-- rnb-output-begin eyJkYXRhIjoiPDxEb2N1bWVudFRlcm1NYXRyaXggKGRvY3VtZW50czogMTA0MSwgdGVybXM6IDQ4Nik+PlxuTm9uLS9zcGFyc2UgZW50cmllczogNTExMy81MDA4MTNcblNwYXJzaXR5ICAgICAgICAgICA6IDk5JVxuTWF4aW1hbCB0ZXJtIGxlbmd0aDogMTVcbldlaWdodGluZyAgICAgICAgICA6IHRlcm0gZnJlcXVlbmN5ICh0ZilcblNhbXBsZSAgICAgICAgICAgICA6XG4gICAgICBUZXJtc1xuRG9jcyAgINin2YTZhCDYp9mG2Kog2K3Yp9isINit2YrYpyDYrtmK2LEg2LnZhNmJINmF2LXYsSDZhtin2LMg2YbZgdizINmK2KfYsdioXG4gIDEwMDMgICAxICAgMCAgIDAgICAwICAgMCAgIDAgICAxICAgMSAgIDEgICAgMVxuICAxMDMwICAgMSAgIDEgICAxICAgMCAgIDAgICAwICAgMCAgIDEgICAwICAgIDBcbiAgMjMwICAgIDEgICAwICAgMSAgIDAgICAxICAgMSAgIDAgICAwICAgMSAgICAwXG4gIDIzNSAgICAxICAgMCAgIDEgICAxICAgMCAgIDEgICAwICAgMSAgIDEgICAgMFxuICAyODkgICAgMSAgIDEgICAwICAgMSAgIDEgICAxICAgMSAgIDAgICAwICAgIDBcbiAgNzIyICAgIDEgICAxICAgMSAgIDAgICAxICAgMSAgIDEgICAxICAgMSAgICAxXG4gIDczNyAgICAxICAgMCAgIDEgICAxICAgMCAgIDEgICAwICAgMSAgIDAgICAgMVxuICA4MTcgICAgMSAgIDAgICAxICAgMSAgIDEgICAxICAgMCAgIDEgICAwICAgIDBcbiAgODcwICAgIDEgICAxICAgMSAgIDEgICAxICAgMSAgIDAgICAwICAgMCAgICAxXG4gIDg4MSAgICAxICAgMSAgIDAgICAwICAgMCAgIDAgICAxICAgMSAgIDEgICAgMVxuIn0= -->
+<pre><code>&lt;&lt;DocumentTermMatrix (documents: 1041, terms: 486)&gt;&gt;
+Non-/sparse entries: 5113/500813
 Sparsity           : 99%
-Maximal term length: 19
+Maximal term length: 15
 Weighting          : term frequency (tf)
 Sample             :
       Terms
-Docs   ربنا ط§ن عشان علظٹ فظٹ لظٹ مصر ناس ولا يارب
-  1004    0   1    0    0   1   1   0   1   1    1
-  1120    1   1    1    1   1   1   1   1   1    0
-  1143    1   1    1    1   1   0   1   0   1    0
-  1347    1   1    1    0   1   1   0   1   1    0
-  231     1   0    0    1   1   1   0   0   1    0
-  236     0   1    0    1   1   1   0   1   0    0
-  290     0   0    1    1   1   1   1   0   1    0
-  723     1   0    0    0   0   1   1   1   0    1
-  871     0   0    0    1   1   0   0   0   0    1
-  882     1   1    0    0   1   0   1   1   1    1</code></pre>
+Docs   الل انت حاج حيا خير على مصر ناس نفس يارب
+  1003   1   0   0   0   0   0   1   1   1    1
+  1030   1   1   1   0   0   0   0   1   0    0
+  230    1   0   1   0   1   1   0   0   1    0
+  235    1   0   1   1   0   1   0   1   1    0
+  289    1   1   0   1   1   1   1   0   0    0
+  722    1   1   1   0   1   1   1   1   1    1
+  737    1   0   1   1   0   1   0   1   0    1
+  817    1   0   1   1   1   1   0   1   0    0
+  870    1   1   1   1   1   1   0   0   0    1
+  881    1   1   0   0   0   0   1   1   1    1</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudHdpdHRlci5kZiA8LSBhcHBseSh0d2l0dGVyLmRmLCBNQVJHSU4gPSAyLCBjb252ZXJ0Q291bnRzKVxudHdpdHRlci5kZiA8LSBhcy5kYXRhLmZyYW1lKHR3aXR0ZXIuZGYpXG50d2l0dGVyLmRmJENsYXNzIDwtIGFzLmNoYXJhY3Rlcih1bmNsZWFuLmNvcnB1cyRjbGFzcylcbnR3aXR0ZXIuZGYgPC0gdHdpdHRlci5kZlstMTQyMCxdXG50d2l0dGVyLmRmJENsYXNzIDwtIGZhY3Rvcih0d2l0dGVyLmRmJENsYXNzKVxuY2xhc3ModHdpdHRlci5kZilcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudHdpdHRlci5kZiA8LSBhcHBseSh0d2l0dGVyLmRmLCBNQVJHSU4gPSAyLCBjb252ZXJ0Q291bnRzKVxudHdpdHRlci5kZiA8LSBhcy5kYXRhLmZyYW1lKHR3aXR0ZXIuZGYpXG50d2l0dGVyLmRmIDwtIHR3aXR0ZXIuZGZbLTE0MjAsXVxudHdpdHRlci5kZiRDbGFzcyA8LSBhcy5jaGFyYWN0ZXIodW5jbGVhbi5jb3JwdXMkY2xhc3MpXG5gYGAifQ== -->
 <pre class="r"><code>twitter.df &lt;- apply(twitter.df, MARGIN = 2, convertCounts)
 twitter.df &lt;- as.data.frame(twitter.df)
-twitter.df$Class &lt;- as.character(unclean.corpus$class)
 twitter.df &lt;- twitter.df[-1420,]
-twitter.df$Class &lt;- factor(twitter.df$Class)
-class(twitter.df)</code></pre>
+twitter.df$Class &lt;- as.character(unclean.corpus$class)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiZGF0YS5mcmFtZVwiXG4ifQ== -->
-<pre><code>[1] &quot;data.frame&quot;</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gYCQ8LS5kYXRhLmZyYW1lYChgKnRtcCpgLCBcIkNsYXNzXCIsIHZhbHVlID0gYyhcIm5lZ1wiLCBcInBvc1wiLCBcInBvc1wiLCAgOiBcbiAgcmVwbGFjZW1lbnQgaGFzIDE0MjAgcm93cywgZGF0YSBoYXMgMTA0MVxuIn0= -->
+<pre><code>Error in `$&lt;-.data.frame`(`*tmp*`, &quot;Class&quot;, value = c(&quot;neg&quot;, &quot;pos&quot;, &quot;pos&quot;,  : 
+  replacement has 1420 rows, data has 1041</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGltKHR3aXR0ZXIuZGYpXG5gYGAifQ== -->
-<pre class="r"><code>dim(twitter.df)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDE0MTkgIDY1NVxuIn0= -->
-<pre><code>[1] 1419  655</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBcbiMgdHJhaW5fY29udHJvbCA8LSB0cmFpbkNvbnRyb2wobWV0aG9kPVwiY3ZcIiwgbnVtYmVyPTEwKVxuIyBncmlkIDwtIGV4cGFuZC5ncmlkKC5mTD1jKDApLCAudXNla2VybmVsPWMoRkFMU0UpKVxuIyBtb2RlbCA8LSB0cmFpbihDbGFzc34uLCBkYXRhPXR3aXR0ZXIuZGYsIHRyQ29udHJvbD10cmFpbl9jb250cm9sLCBtZXRob2Q9XCJuYlwiKVxuIyBwcmludChtb2RlbClcbmBgYCJ9 -->
-<pre class="r"><code># 
-# train_control &lt;- trainControl(method=&quot;cv&quot;, number=10)
-# grid &lt;- expand.grid(.fL=c(0), .usekernel=c(FALSE))
-# model &lt;- train(Class~., data=twitter.df, trControl=train_control, method=&quot;nb&quot;)
-# print(model)</code></pre>
-<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
@@ -384,7 +361,7 @@ model &lt;- train(Class~., data=twitter.df, trControl=train_control,
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlNlbnRpbWVudCBBbmFseXNpcyBJbiBBcmFiaWMuIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KMS4gbG9hZCB0aGUgdGhlIHJlcXVpcmVkIHBhY2thZ2VzIGZvciB0aGUgd29yay4NCg0KYGBge3IgfQ0KbGlicmFyeShkcGx5cikNCmxpYnJhcnkoeGxzeCkNCmxpYnJhcnkodG0pDQpsaWJyYXJ5KE5MUCkNCmxpYnJhcnkoY2FyZXQpDQpzb3VyY2UoInV0aWxzLlIiLGxvY2FsID0gVFJVRSkNClN5cy5zZXRsb2NhbGUoIkxDX0FMTCIsICJBcmFiaWMiKQ0Kc2V0LnNlZWQoMzIzMjMpDQpgYGANCg0KMS4gbG9hZCB0aGUgY29ycHVzIGFuZCBkbyBzb21lIGluc2lnaHRzLg0KDQpgYGB7cn0NCnVuY2xlYW4uY29ycHVzIDwtIHJlYWQuY3N2KCJkYXRhL2NvcnB1c190cmFpbi5jc3YiLGVuY29kaW5nID0gIlVURi04IikNCiNhcmFiaWMubGV4aWNvbiA8LSByZWFkLnhsc3goImRhdGEvc2VudGltZW50TGV4Lnhsc3giLHNoZWV0SW5kZXggPSAxLGVuY29kaW5nID0gIlVURi04IikNCmFyYWJpYy5zdG9wd29yZC5kZiA8LSByZWFkLnRhYmxlKCJkYXRhL2FyYWJpY1N0b3BzLnR4dCIsIGVuY29kaW5nID0gIlVURi04IikNCmFyYWJpYy5zdG9wd29yZCA8LSBhcy5jaGFyYWN0ZXIoKGFyYWJpYy5zdG9wd29yZC5kZiRWMSkpDQpgYGANCg0KYGBge3J9DQojc3RyKHVuY2xlYW4uY29ycHVzKQ0KdGFibGUodW5jbGVhbi5jb3JwdXMkY2xhc3MpDQpgYGANCg0KMy4gY3JlYXRlIHRoZSB0d2l0dGVyIGNvcnB1cyBhbmQgYXBwbHkgY2xlYW5pbmcgc3RlcHMgDQoNCmBgYHtyfQ0KDQp0d2l0dGVyLmNvcnB1cyA8LSBDb3JwdXMoVmVjdG9yU291cmNlKHVuY2xlYW4uY29ycHVzJHR3ZWV0KSkNCnR3aXR0ZXIuY29ycHVzLmNsZWFuIDwtIHRtX21hcCh0d2l0dGVyLmNvcnB1cywgdG9sb3dlcikNCnR3aXR0ZXIuY29ycHVzLmNsZWFuIDwtIHRtX21hcCh0d2l0dGVyLmNvcnB1cy5jbGVhbiwgcmVtb3ZlTnVtYmVycykNCnR3aXR0ZXIuY29ycHVzLmNsZWFuIDwtIHRtX21hcCh0d2l0dGVyLmNvcnB1cy5jbGVhbiwgcmVtb3ZlV29yZHMsYXJhYmljLnN0b3B3b3JkKQ0KdHdpdHRlci5jb3JwdXMuY2xlYW4gPC0gdG1fbWFwKHR3aXR0ZXIuY29ycHVzLmNsZWFuLCByZW1vdmVQdW5jdHVhdGlvbikNCnR3aXR0ZXIuY29ycHVzLmNsZWFuIDwtIHRtX21hcCh0d2l0dGVyLmNvcnB1cy5jbGVhbiwgcmVtb3ZlRW5nbGlzaFdvcmRzKQ0KdHdpdHRlci5jb3JwdXMuY2xlYW4gPC0gdG1fbWFwKHR3aXR0ZXIuY29ycHVzLmNsZWFuLCBzdHJpcFdoaXRlc3BhY2UpDQp0d2l0dGVyLmNvcnB1cy5jbGVhbiA8LSB0bV9tYXAodHdpdHRlci5jb3JwdXMuY2xlYW4sIHJlb212ZUVsb25nYXRpb24pDQp0d2l0dGVyLmNvcnB1cy5jbGVhbiA8LSB0bV9tYXAodHdpdHRlci5jb3JwdXMuY2xlYW4sIHJlb212ZVNpbmdsZUxldHRlcnMpDQp0d2l0dGVyLmNvcnB1cy5jbGVhbiA8LSB0bV9tYXAodHdpdHRlci5jb3JwdXMuY2xlYW4sIG5vcm1hbGl6ZUFyYWJpYykNCmluc3BlY3QodHdpdHRlci5jb3JwdXMuY2xlYW5bMToxMF0pDQpgYGANCg0KNC4gYnVpbGRpbmcgZnJlcXVlbmN5IG1hdHJpeCANCmBgYHtyfQ0KDQpkYXRhZnJhbWUgPC0gZGF0YS5mcmFtZSh0ZXh0PXNhcHBseSh0d2l0dGVyLmNvcnB1cy5jbGVhbixhcy5jaGFyYWN0ZXIpLHN0cmluZ3NBc0ZhY3RvcnM9RikNCiN3cml0ZS54bHN4KGRhdGFmcmFtZSwgImNsZWFuL3R3aXR0ZXJfY2xlYW5fd2l0aF9ub3JtYWxpemUueGxzeCIsc2hlZXROYW1lID0gInNoZWV0IikNCnR3aXR0ZXIuZHRtIDwtIERvY3VtZW50VGVybU1hdHJpeChDb3JwdXMoRGF0YWZyYW1lU291cmNlKGRhdGFmcmFtZSkpKQ0KaW5zcGVjdCh0d2l0dGVyLmR0bSkNCmBgYA0KDQo1LiBCdWlsZCB0aGUgbW9kZWwgYW5kIGV2YWx1YXRlIGl0IA0KYGBge3J9DQoNCnR3aXR0ZXIuZGljdCA8LSBmaW5kRnJlcVRlcm1zKHR3aXR0ZXIuZHRtLCA1KQ0KI3ByaW50KHR3aXR0ZXIuZGljdCkNCnR3aXR0ZXIuZGYgPC0gRG9jdW1lbnRUZXJtTWF0cml4KENvcnB1cyhEYXRhZnJhbWVTb3VyY2UoZGF0YWZyYW1lKSksDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGxpc3QoZGljdGlvbmFyeSA9IHR3aXR0ZXIuZGljdCkpDQppbnNwZWN0KHR3aXR0ZXIuZGYpDQp0d2l0dGVyLmRmIDwtIGFwcGx5KHR3aXR0ZXIuZGYsIE1BUkdJTiA9IDIsIGNvbnZlcnRDb3VudHMpDQp0d2l0dGVyLmRmIDwtIGFzLmRhdGEuZnJhbWUodHdpdHRlci5kZikNCnR3aXR0ZXIuZGYkQ2xhc3MgPC0gYXMuY2hhcmFjdGVyKHVuY2xlYW4uY29ycHVzJGNsYXNzKQ0KdHdpdHRlci5kZiA8LSB0d2l0dGVyLmRmWy0xNDIwLF0NCnR3aXR0ZXIuZGYkQ2xhc3MgPC0gZmFjdG9yKHR3aXR0ZXIuZGYkQ2xhc3MpDQpjbGFzcyh0d2l0dGVyLmRmKQ0KZGltKHR3aXR0ZXIuZGYpDQoNCmBgYA0KDQoNCmBgYHtyfQ0KDQpjb2xzIDwtIG5jb2wodHdpdHRlci5kZikNCmluVHJhaW4gPC0gY3JlYXRlRGF0YVBhcnRpdGlvbih5PSB0d2l0dGVyLmRmJENsYXNzICxwID0uODAgLCBsaXN0ID0gRikNCnR3aXR0ZXIudHJhaW5pbmcgPC0gdHdpdHRlci5kZltpblRyYWluLF0NCnR3aXR0ZXIudGVzdGluZyA8LSB0d2l0dGVyLmRmWy1pblRyYWluLF0NCg0KdGFibGUodHdpdHRlci50cmFpbmluZyRDbGFzcykNCnRhYmxlKHR3aXR0ZXIudGVzdGluZyRDbGFzcykNCg0KbGlicmFyeShlMTA3MSkNCnR3aXR0ZXJfY2xhc3NpZmllciA8LSBuYWl2ZUJheWVzKHR3aXR0ZXIudHJhaW5pbmdbLC1jb2xzXSwgdHdpdHRlci50cmFpbmluZ1ssY29sc10pDQoNCnR3aXR0ZXIucHJlZGljdGVkIDwtIHByZWRpY3QodHdpdHRlcl9jbGFzc2lmaWVyLCB0d2l0dGVyLnRlc3RpbmdbLC1jb2xzXSkNCg0KbGlicmFyeShnbW9kZWxzKQ0KQ3Jvc3NUYWJsZSh0d2l0dGVyLnByZWRpY3RlZCwgdHdpdHRlci50ZXN0aW5nJENsYXNzLA0KICAgICAgICAgICBwcm9wLmNoaXNxID0gRkFMU0UsIHByb3AudCA9IEZBTFNFLCBwcm9wLnIgPSBGQUxTRSwNCiAgICAgICAgICAgZG5uID0gYygncHJlZGljdGVkJywgJ2FjdHVhbCcpKQ0KDQpgYGANCg0KDQpgYGB7cn0NCnRyYWluX2NvbnRyb2wgPC0gdHJhaW5Db250cm9sKG1ldGhvZD0iY3YiLCBudW1iZXI9MTApDQptb2RlbCA8LSB0cmFpbihDbGFzc34uLCBkYXRhPXR3aXR0ZXIuZGYsIHRyQ29udHJvbD10cmFpbl9jb250cm9sLCANCiAgICAgICAgICAgICAgIG1ldGhvZD0iZ2xtLm5iIix0dW5lTGVuZ3RoID0gMikNCnByaW50KG1vZGVsKQ0KYGBg</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlNlbnRpbWVudCBBbmFseXNpcyBJbiBBcmFiaWMuIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KMS4gbG9hZCB0aGUgdGhlIHJlcXVpcmVkIHBhY2thZ2VzIGZvciB0aGUgd29yay4NCg0KYGBge3IgfQ0KbGlicmFyeShkcGx5cikNCmxpYnJhcnkoeGxzeCkNCmxpYnJhcnkodG0pDQpsaWJyYXJ5KE5MUCkNCmxpYnJhcnkoY2FyZXQpDQpzb3VyY2UoInV0aWxzLlIiLGxvY2FsID0gVFJVRSkNCnNvdXJjZSgiUkFyYWJpY1N0ZW1tZXIuUiIpDQpTeXMuc2V0bG9jYWxlKCJMQ19BTEwiLCAiQXJhYmljIikNCnNldC5zZWVkKDMyMzIzKQ0KYGBgDQoNCjEuIGxvYWQgdGhlIGNvcnB1cyBhbmQgZG8gc29tZSBpbnNpZ2h0cy4NCg0KYGBge3J9DQp1bmNsZWFuLmNvcnB1cyA8LSByZWFkLmNzdigiZGF0YS9jb3JwdXNfdHJhaW4uY3N2IixlbmNvZGluZyA9ICJVVEYtOCIpDQojYXJhYmljLmxleGljb24gPC0gcmVhZC54bHN4KCJkYXRhL3NlbnRpbWVudExleC54bHN4IixzaGVldEluZGV4ID0gMSxlbmNvZGluZyA9ICJVVEYtOCIpDQphcmFiaWMuc3RvcHdvcmQuZGYgPC0gcmVhZC50YWJsZSgiZGF0YS9hcmFiaWNTdG9wcy50eHQiLCBlbmNvZGluZyA9ICJVVEYtOCIpDQphcmFiaWMuc3RvcHdvcmQgPC0gYXMuY2hhcmFjdGVyKChhcmFiaWMuc3RvcHdvcmQuZGYkVjEpKQ0KYGBgDQoNCmBgYHtyfQ0KI3N0cih1bmNsZWFuLmNvcnB1cykNCnRhYmxlKHVuY2xlYW4uY29ycHVzJGNsYXNzKQ0KYGBgDQoNCjMuIGNyZWF0ZSB0aGUgdHdpdHRlciBjb3JwdXMgYW5kIGFwcGx5IGNsZWFuaW5nIHN0ZXBzIA0KDQpgYGB7cn0NCg0KdHdpdHRlci5jb3JwdXMgPC0gQ29ycHVzKFZlY3RvclNvdXJjZSh1bmNsZWFuLmNvcnB1cyR0d2VldCkpDQp0d2l0dGVyLmNvcnB1cy5jbGVhbiA8LSB0bV9tYXAodHdpdHRlci5jb3JwdXMsIHRvbG93ZXIpDQp0d2l0dGVyLmNvcnB1cy5jbGVhbiA8LSB0bV9tYXAodHdpdHRlci5jb3JwdXMuY2xlYW4sIHJlbW92ZU51bWJlcnMpDQp0d2l0dGVyLmNvcnB1cy5jbGVhbiA8LSB0bV9tYXAodHdpdHRlci5jb3JwdXMuY2xlYW4sIHJlbW92ZVdvcmRzLGFyYWJpYy5zdG9wd29yZCkNCnR3aXR0ZXIuY29ycHVzLmNsZWFuIDwtIHRtX21hcCh0d2l0dGVyLmNvcnB1cy5jbGVhbiwgcmVtb3ZlUHVuY3R1YXRpb24pDQp0d2l0dGVyLmNvcnB1cy5jbGVhbiA8LSB0bV9tYXAodHdpdHRlci5jb3JwdXMuY2xlYW4sIHJlbW92ZUVuZ2xpc2hXb3JkcykNCnR3aXR0ZXIuY29ycHVzLmNsZWFuIDwtIHRtX21hcCh0d2l0dGVyLmNvcnB1cy5jbGVhbiwgc3RyaXBXaGl0ZXNwYWNlKQ0KdHdpdHRlci5jb3JwdXMuY2xlYW4gPC0gdG1fbWFwKHR3aXR0ZXIuY29ycHVzLmNsZWFuLCByZW9tdmVFbG9uZ2F0aW9uKQ0KdHdpdHRlci5jb3JwdXMuY2xlYW4gPC0gdG1fbWFwKHR3aXR0ZXIuY29ycHVzLmNsZWFuLCByZW9tdmVTaW5nbGVMZXR0ZXJzKQ0KZGF0YWZyYW1lIDwtIGRhdGEuZnJhbWUodGV4dD1zYXBwbHkodHdpdHRlci5jb3JwdXMuY2xlYW4sYXMuY2hhcmFjdGVyKSxzdHJpbmdzQXNGYWN0b3JzPUYpDQp3cml0ZS50YWJsZShkYXRhZnJhbWUkdGV4dCwgc2VwPSJcbiIsIGZpbGUgPSAiaW4udHh0IiwgZmlsZUVuY29kaW5nID0gIlVURi04IiwgY29sLm5hbWVzID0gRiAsIHJvdy5uYW1lcyA9IEYpDQpzdGVtRmlsZSgiaW4udHh0IiwgIm91dC50eHQiKQ0KYGBgDQoNCjQuIGJ1aWxkaW5nIGZyZXF1ZW5jeSBtYXRyaXggDQpgYGB7cn0NCmRhdGFmcmFtZSA8LSByZWFkLnRhYmxlKCJvdXQudHh0Iiwgc2VwPSJcbiIsIGZpbGVFbmNvZGluZyA9ICJVVEYtOCIpDQojd3JpdGUueGxzeChkYXRhZnJhbWUsICJjbGVhbi90d2l0dGVyX2NsZWFuX3dpdGhfbm9ybWFsaXplLnhsc3giLHNoZWV0TmFtZSA9ICJzaGVldCIpDQp0d2l0dGVyLmR0bSA8LSBEb2N1bWVudFRlcm1NYXRyaXgoQ29ycHVzKERhdGFmcmFtZVNvdXJjZShkYXRhZnJhbWUpKSkNCmluc3BlY3QodHdpdHRlci5kdG0pDQpgYGANCg0KNS4gQnVpbGQgdGhlIG1vZGVsIGFuZCBldmFsdWF0ZSBpdCANCmBgYHtyfQ0KDQp0d2l0dGVyLmRpY3QgPC0gZmluZEZyZXFUZXJtcyh0d2l0dGVyLmR0bSwgNSkNCiNwcmludCh0d2l0dGVyLmRpY3QpDQp0d2l0dGVyLmRmIDwtIERvY3VtZW50VGVybU1hdHJpeChDb3JwdXMoRGF0YWZyYW1lU291cmNlKGRhdGFmcmFtZSkpLA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsaXN0KGRpY3Rpb25hcnkgPSB0d2l0dGVyLmRpY3QpKQ0KaW5zcGVjdCh0d2l0dGVyLmRmKQ0KdHdpdHRlci5kZiA8LSBhcHBseSh0d2l0dGVyLmRmLCBNQVJHSU4gPSAyLCBjb252ZXJ0Q291bnRzKQ0KdHdpdHRlci5kZiA8LSBhcy5kYXRhLmZyYW1lKHR3aXR0ZXIuZGYpDQp0d2l0dGVyLmRmIDwtIHR3aXR0ZXIuZGZbLTE0MjAsXQ0KdHdpdHRlci5kZiRDbGFzcyA8LSBhcy5jaGFyYWN0ZXIodW5jbGVhbi5jb3JwdXMkY2xhc3MpDQp0d2l0dGVyLmRmJENsYXNzIDwtIGZhY3Rvcih0d2l0dGVyLmRmJENsYXNzKQ0KY2xhc3ModHdpdHRlci5kZikNCmRpbSh0d2l0dGVyLmRmKQ0KDQpgYGANCg0KDQpgYGB7cn0NCg0KY29scyA8LSBuY29sKHR3aXR0ZXIuZGYpDQppblRyYWluIDwtIGNyZWF0ZURhdGFQYXJ0aXRpb24oeT0gdHdpdHRlci5kZiRDbGFzcyAscCA9LjgwICwgbGlzdCA9IEYpDQp0d2l0dGVyLnRyYWluaW5nIDwtIHR3aXR0ZXIuZGZbaW5UcmFpbixdDQp0d2l0dGVyLnRlc3RpbmcgPC0gdHdpdHRlci5kZlstaW5UcmFpbixdDQoNCnRhYmxlKHR3aXR0ZXIudHJhaW5pbmckQ2xhc3MpDQp0YWJsZSh0d2l0dGVyLnRlc3RpbmckQ2xhc3MpDQoNCmxpYnJhcnkoZTEwNzEpDQp0d2l0dGVyX2NsYXNzaWZpZXIgPC0gbmFpdmVCYXllcyh0d2l0dGVyLnRyYWluaW5nWywtY29sc10sIHR3aXR0ZXIudHJhaW5pbmdbLGNvbHNdKQ0KDQp0d2l0dGVyLnByZWRpY3RlZCA8LSBwcmVkaWN0KHR3aXR0ZXJfY2xhc3NpZmllciwgdHdpdHRlci50ZXN0aW5nWywtY29sc10pDQoNCmxpYnJhcnkoZ21vZGVscykNCkNyb3NzVGFibGUodHdpdHRlci5wcmVkaWN0ZWQsIHR3aXR0ZXIudGVzdGluZyRDbGFzcywNCiAgICAgICAgICAgcHJvcC5jaGlzcSA9IEZBTFNFLCBwcm9wLnQgPSBGQUxTRSwgcHJvcC5yID0gRkFMU0UsDQogICAgICAgICAgIGRubiA9IGMoJ3ByZWRpY3RlZCcsICdhY3R1YWwnKSkNCg0KYGBgDQoNCg0KYGBge3J9DQp0cmFpbl9jb250cm9sIDwtIHRyYWluQ29udHJvbChtZXRob2Q9ImN2IiwgbnVtYmVyPTEwKQ0KbW9kZWwgPC0gdHJhaW4oQ2xhc3N+LiwgZGF0YT10d2l0dGVyLmRmLCB0ckNvbnRyb2w9dHJhaW5fY29udHJvbCwgDQogICAgICAgICAgICAgICBtZXRob2Q9ImdsbS5uYiIsdHVuZUxlbmd0aCA9IDIpDQpwcmludChtb2RlbCkNCmBgYA==</div>
 
 
 

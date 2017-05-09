@@ -12,6 +12,7 @@ library(tm)
 library(NLP)
 library(caret)
 source("utils.R",local = TRUE)
+source("RArabicStemmer.R")
 Sys.setlocale("LC_ALL", "Arabic")
 set.seed(32323)
 ```
@@ -43,14 +44,14 @@ twitter.corpus.clean <- tm_map(twitter.corpus.clean, removeEnglishWords)
 twitter.corpus.clean <- tm_map(twitter.corpus.clean, stripWhitespace)
 twitter.corpus.clean <- tm_map(twitter.corpus.clean, reomveElongation)
 twitter.corpus.clean <- tm_map(twitter.corpus.clean, reomveSingleLetters)
-twitter.corpus.clean <- tm_map(twitter.corpus.clean, normalizeArabic)
-inspect(twitter.corpus.clean[1:10])
+dataframe <- data.frame(text=sapply(twitter.corpus.clean,as.character),stringsAsFactors=F)
+write.table(dataframe$text, sep="\n", file = "in.txt", fileEncoding = "UTF-8", col.names = F , row.names = F)
+stemFile("in.txt", "out.txt")
 ```
 
 4. building frequency matrix 
 ```{r}
-
-dataframe <- data.frame(text=sapply(twitter.corpus.clean,as.character),stringsAsFactors=F)
+dataframe <- read.table("out.txt", sep="\n", fileEncoding = "UTF-8")
 #write.xlsx(dataframe, "clean/twitter_clean_with_normalize.xlsx",sheetName = "sheet")
 twitter.dtm <- DocumentTermMatrix(Corpus(DataframeSource(dataframe)))
 inspect(twitter.dtm)
@@ -66,8 +67,8 @@ twitter.df <- DocumentTermMatrix(Corpus(DataframeSource(dataframe)),
 inspect(twitter.df)
 twitter.df <- apply(twitter.df, MARGIN = 2, convertCounts)
 twitter.df <- as.data.frame(twitter.df)
-twitter.df$Class <- as.character(unclean.corpus$class)
 twitter.df <- twitter.df[-1420,]
+twitter.df$Class <- as.character(unclean.corpus$class)
 twitter.df$Class <- factor(twitter.df$Class)
 class(twitter.df)
 dim(twitter.df)
