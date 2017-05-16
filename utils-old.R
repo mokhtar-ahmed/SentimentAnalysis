@@ -1,32 +1,8 @@
-arabic.lexicon <- read.xlsx("data/sentimentLex_modified.xlsx",sheetIndex = 1,encoding = "UTF-8")
-arabic.lexicon.neg <- filter(arabic.lexicon, Polarity == "neg")
-arabic.lexicon.pos <- filter(arabic.lexicon, Polarity == "pos")
-
-replaceNegWords <- function(text){
-      l <- apply(arabic.lexicon.neg, 1, function(x){
-            if(grepl(x[1], text)){
-                  # print(x[1])
-                  text <<- paste(text, "كلمهسالب"  ,  sep = " ")
-            }
-      })
-      return(text)
-}
-
-replacePosWords <- function(text){
-      l <- apply(arabic.lexicon.pos, 1, function(x){
-            if(grepl(x[1], text)){
-                  # print(x[1])
-                  text <<- paste(text, "كلمهموجب"  ,  sep = " ")
-            }
-      })
-      return(text)
-}
-
 removeEnglishWords <- function(x){
-      return(gsub("[a-z]|[A-Z]","",x))
+      return(gsub('[a-z]|[A-Z]','',as.character(x)))
 }
 
-removeElongation <- function(x){
+reomveElongation <- function(x){
       text_temp <- x
       
       # remove Alef elongation  
@@ -98,6 +74,7 @@ reomveSingleLetters <- function(x){
       return(text_temp)     
 }
 
+
 normalizeArabic <- function(x) {
       text_temp <- x
       text_temp <- gsub("\\p{P}", " ", text_temp, perl = TRUE) # Remove punctuation
@@ -143,31 +120,7 @@ convertCounts <- function(x) {
       x <- factor(x, levels = c(0, 1), labels = c("No", "Yes"))
 }
 
-removeMention  <- function(x){
-  return(gsub("@[[:alnum:]]*", "منشن", x))
-}
-
-removeHashtag <- function(x){
-  return(gsub("#[[:alnum:]]*","هاشتاج", x))
-}
-
-removeHTTP <- function(x){
-      return(gsub("http[[:alnum:][:punct:]]*", "كلمهلينك", x))
-}
-arabicStemming <- function(x){
-      x <- as.character(x)
-      stem(x, returnStemList = F, transliteration = F)
-}
-
-countLinks <- function(dataset){
-      dataset$numLinks <- rep(0 , times = nrow(dataset))
-      lens <-apply(dataset,1, function(row){
-            print(row)
-            length(grep("مصر",row))      
-      })
-   
-      print(lens)
-      dataset$numLinks <- as.numeric(lens)
-      
-      dataset
+stemBlArabi <- function(txt){
+      txt <- as.character(txt)
+      stem(txt, returnStemList = F, transliteration = F)
 }

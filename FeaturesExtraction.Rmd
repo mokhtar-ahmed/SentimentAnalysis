@@ -1,0 +1,17 @@
+---
+title: "Feature Extraction Notebook."
+output: html_notebook
+---
+Step.1 Loading some libs and sources files for work.
+```{r}
+library(dplyr)
+library(xlsx)
+
+```
+
+Step.5 Features Engineering 
+```{r}
+clean.corpus <- unclean.corpus
+clean.corpus$tweet <- clean.tweets
+clean.corpus <-countLinks(clean.corpus)
+```
